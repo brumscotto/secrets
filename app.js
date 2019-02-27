@@ -1,5 +1,8 @@
 //jshint esversion:6
 
+//dotenv required at the VERY TOP//
+require('dotenv').config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -21,9 +24,8 @@ const userSchema = new mongoose.Schema({
     password: String
 });
 
-const secret = "This-is-our-little-secret.";
 //plugin must be written before the new mongoose model//
-userSchema.plugin(encrypt, {secret: secret, encryptedFields: ["password"] });
+userSchema.plugin(encrypt, {secret: process.env.SECRET, encryptedFields: ["password"] });
 
 const User = new mongoose.model("User", userSchema);
 
